@@ -22,9 +22,10 @@
 
 FROM        --platform=$TARGETOS/$TARGETARCH golang:1.15-alpine
 
-LABEL       author="Matthew Penner" maintainer="matthew@pterodactyl.io"
+LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
-LABEL       org.opencontainers.image.source="https://github.com/pterodactyl/yolks"
+LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-ghcr"
+
 LABEL       org.opencontainers.image.licenses=MIT
 
 RUN         apk add --update --no-cache ca-certificates tzdata \
