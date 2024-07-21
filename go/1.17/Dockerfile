@@ -22,7 +22,6 @@
 
 FROM        --platform=$TARGETOS/$TARGETARCH golang:1.17-alpine
 
-
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
 LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-ghcr"
@@ -30,6 +29,10 @@ LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-
 LABEL       org.opencontainers.image.licenses=MIT
 
 RUN         apk add --update --no-cache ca-certificates tzdata \
+	&& rm -rf /usr/bin/dd \
+	&& rm -rf /usr/bin/fallocate \
+	&& rm -rf /usr/bin/truncate \
+	&& rm -rf /usr/bin/xfs_mkfile \
 	&& adduser -D -h /home/container container
 
 USER        container
