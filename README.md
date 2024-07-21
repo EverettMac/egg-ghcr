@@ -1,2 +1,2 @@
 # egg-ghcr
-private ghcr for eggs
+forked from https://github.com/pterodactyl/yolks
