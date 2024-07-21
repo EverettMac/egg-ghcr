@@ -22,9 +22,9 @@
 
 FROM        --platform=$TARGETOS/$TARGETARCH ibm-semeru-runtimes:open-18-jdk
 
-LABEL       author="Matthew Penner" maintainer="matthew@pterodactyl.io"
+LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
-LABEL       org.opencontainers.image.source="https://github.com/pterodactyl/yolks"
+LABEL       org.opencontainers.image.source="https://github.com/Embotic.xyz/egg-ghcr"
 LABEL       org.opencontainers.image.licenses=MIT
 
 RUN         apt-get update -y \

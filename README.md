@@ -1,2 +1,2 @@
 # egg-ghcr
-forked from https://github.com/pterodactyl/yolks
+forked from https://github.com/Embotic.xyz/egg-ghcr
