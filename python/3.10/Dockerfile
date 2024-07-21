@@ -28,7 +28,11 @@ LABEL       org.opencontainers.image.source="https://github.com/pterodactyl/yolk
 LABEL       org.opencontainers.image.licenses=MIT
 
 RUN         apk add --update --no-cache cmake make ca-certificates curl ffmpeg g++ gcc git openssl sqlite tar tzdata \
-	&& adduser -D -h /home/container container
+            && rm -f /usr/bin/dd \
+            && rm -f /usr/bin/fallocate \
+            && rm -f /usr/bin/truncate \
+            && rm -f /usr/bin/xfs_mkfile \
+            && adduser -D -h /home/container container
 
 USER        container
 ENV         USER=container HOME=/home/container
