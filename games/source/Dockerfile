@@ -22,9 +22,11 @@
 
 FROM        --platform=$TARGETOS/$TARGETARCH debian:stable-slim
 
-LABEL       author="Matthew Penner" maintainer="matthew@pterodactyl.io"
 
-LABEL       org.opencontainers.image.source="https://github.com/pterodactyl/yolks"
+LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
+
+LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-ghcr"
+
 LABEL       org.opencontainers.image.licenses=MIT
 
 ENV         DEBIAN_FRONTEND=noninteractive
