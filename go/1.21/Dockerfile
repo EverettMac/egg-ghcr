@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2021 Embotic.XYZ
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,22 @@
 # SOFTWARE.
 #
 
-FROM        --platform=$TARGETOS/$TARGETARCH ibm-semeru-runtimes:open-19-jdk
+FROM        --platform=$TARGETOS/$TARGETARCH golang:1.21-alpine
 
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
-LABEL       org.opencontainers.image.source="https://github.com/Embotic.xyz/egg-ghcr"
+LABEL       org.opencontainers.image.source="https://github.com/embotic-xyz/egg-ghcr"
 LABEL       org.opencontainers.image.licenses=MIT
 
-RUN         apt-get update -y \
-            && apt-get install -y lsof curl ca-certificates openssl git tar sqlite3 fontconfig libfreetype6 tzdata iproute2 libstdc++6 \
-            && rm -f /usr/bin/dd \
-            && rm -f /usr/bin/fallocate \
-            && rm -f /usr/bin/truncate \
-            && rm -f /usr/bin/xfs_mkfile \
-            && useradd -d /home/container -m container
-
+RUN         apk add --update --no-cache ca-certificates tzdata \
+				&& adduser -D -h /home/container container \
+                && rm -rf /usr/bin/dd \
+	        && rm -rf /usr/bin/fallocate \
+	        && rm -rf /usr/bin/truncate \
+	        && rm -rf /usr/bin/xfs_mkfile 
 USER        container
 ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
 
 COPY        ./../entrypoint.sh /entrypoint.sh
-CMD         [ "/bin/bash", "/entrypoint.sh" ]
+CMD         [ "/bin/ash", "/entrypoint.sh" ]

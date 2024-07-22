@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2021 Embotic.XYZ
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,7 @@ FROM        --platform=$TARGETOS/$TARGETARCH alpine:latest
 
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
-LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-ghcr"
-
+LABEL       org.opencontainers.image.source="https://github.com/embotic-xyz/egg-ghcr"
 LABEL       org.opencontainers.image.licenses=MIT
 
-RUN         apk add --update --no-cache ca-certificates curl git jq wget
+RUN         apk add --update --no-cache ca-certificates curl unzip tar git jq wget

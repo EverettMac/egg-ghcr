@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2023 Matthew Penner
+# Copyright (c) 2021 Embotic.XYZ
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,52 @@
 # SOFTWARE.
 #
 
-# Default the TZ environment variable to UTC
+# Wait for the container to fully initialize
+sleep 1
+
+# Default the TZ environment variable to UTC.
 TZ=${TZ:-UTC}
 export TZ
 
 # Set environment variable that holds the Internal Docker IP
-INTERNAL_IP=$(ip route get 1 | awk '{print $NF;exit}')
+INTERNAL_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
 export INTERNAL_IP
-
-# Default the IMAGE_PROMPT environment variable to something nice
-IMAGE_PROMPT=${IMAGE_PROMPT:-$'\033[1m\033[33mcontainer@pterodactyl~ \033[0m'}
-export IMAGE_PROMPT
 
 # Switch to the container's working directory
 cd /home/container || exit 1
 
-# Replace variables in the startup command
-PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat -)")
-printf "%s%s\n" "$IMAGE_PROMPT" "$PARSED"
 
-# Run the startup command
-# shellcheck disable=SC2086
-exec env ${PARSED}
+## just in case someone removed the defaults.
+if [ "${STEAM_USER}" == "" ]; then
+    echo -e "steam user is not set.\n"
+    echo -e "Using anonymous user.\n"
+    STEAM_USER=anonymous
+    STEAM_PASS=""
+    STEAM_AUTH=""
+else
+    echo -e "user set to ${STEAM_USER}"
+fi
+
+## if auto_update is not set or to 1 update
+if [ -z ${AUTO_UPDATE} ] || [ "${AUTO_UPDATE}" == "1" ]; then 
+    # Update Source Server
+    if [ ! -z ${SRCDS_APPID} ]; then
+	    if [ "${STEAM_USER}" == "anonymous" ]; then
+            ./steamcmd/steamcmd.sh +force_install_dir /home/container +login ${STEAM_USER} ${STEAM_PASS} ${STEAM_AUTH} $( [[ "${WINDOWS_INSTALL}" == "1" ]] && printf %s '+@sSteamCmdForcePlatformType windows' ) +app_update ${SRCDS_APPID} +app_update 1007 $( [[ -z ${SRCDS_BETAID} ]] || printf %s "-beta ${SRCDS_BETAID}" ) $( [[ -z ${SRCDS_BETAPASS} ]] || printf %s "-betapassword ${SRCDS_BETAPASS}" ) $( [[ -z ${HLDS_GAME} ]] || printf %s "+app_set_config 90 mod ${HLDS_GAME}" ) $( [[ -z ${VALIDATE} ]] || printf %s "validate" ) +quit
+	    else
+            numactl --physcpubind=+0 ./steamcmd/steamcmd.sh +force_install_dir /home/container +login ${STEAM_USER} ${STEAM_PASS} ${STEAM_AUTH} $( [[ "${WINDOWS_INSTALL}" == "1" ]] && printf %s '+@sSteamCmdForcePlatformType windows' ) +app_update ${SRCDS_APPID} +app_update 1007 $( [[ -z ${SRCDS_BETAID} ]] || printf %s "-beta ${SRCDS_BETAID}" ) $( [[ -z ${SRCDS_BETAPASS} ]] || printf %s "-betapassword ${SRCDS_BETAPASS}" ) $( [[ -z ${HLDS_GAME} ]] || printf %s "+app_set_config 90 mod ${HLDS_GAME}" ) $( [[ -z ${VALIDATE} ]] || printf %s "validate" ) +quit
+	    fi
+    else
+        echo -e "No appid set. Starting Server"
+    fi
+
+else
+    echo -e "Not updating game server as auto update was set to 0. Starting Server"
+fi
+
+# Replace Startup Variables
+MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
+echo -e ":/home/container$ ${MODIFIED_STARTUP}"
+
+# Run the Server
+eval ${MODIFIED_STARTUP}

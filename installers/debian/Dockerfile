@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2021 Embotic.XYZ
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,16 +20,21 @@
 # SOFTWARE.
 #
 
-FROM        --platform=$TARGETOS/$TARGETARCH debian:bullseye-slim
+FROM        --platform=$TARGETOS/$TARGETARCH debian:bookworm-slim
 
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
-LABEL       org.opencontainers.image.source="https://github.com/Embotic-xyz/egg-ghcr"
+LABEL       org.opencontainers.image.source="https://github.com/embotic-xyz/egg-ghcr"
 LABEL       org.opencontainers.image.licenses=MIT
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
-RUN         dpkg --add-architecture i386 \
-				&& apt update \
-				&& apt upgrade -y \
-				&& apt -y --no-install-recommends install ca-certificates curl lib32gcc-s1 libsdl2-2.0-0:i386 git wget
+RUN      apt update && apt upgrade -y \
+         && apt -y --no-install-recommends install ca-certificates curl git unzip zip tar jq wget
+
+# Only install the needed steamcmd packages on the AMD64 build
+RUN         if [ "$(uname -m)" = "x86_64" ]; then \
+                dpkg --add-architecture i386 && \
+                apt update && \
+                apt -y install lib32gcc-s1 libsdl2-2.0-0:i386; \
+            fi

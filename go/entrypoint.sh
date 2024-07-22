@@ -1,7 +1,7 @@
 #!/bin/ash
 
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2021 Embotic.XYZ
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,6 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-printf "\033[1m\033[33mhosted@embotic~ \033[0m%s\n" "$PARSED"
+printf "\033[1m\033[33mhosted@embotic.xyz~ \033[0m%s\n" "$PARSED"
 # shellcheck disable=SC2086
 exec env ${PARSED}

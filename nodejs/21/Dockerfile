@@ -1,16 +1,16 @@
-FROM        --platform=$TARGETOS/$TARGETARCH node:14-bullseye-slim
+FROM        --platform=$TARGETOS/$TARGETARCH node:21-bookworm-slim
 
-LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
+LABEL       author="Embotic.XYZ" maintainer="Embotic.XYZ"
 
 RUN         apt update \
             && apt -y install ffmpeg iproute2 git sqlite3 libsqlite3-dev python3 python3-dev ca-certificates dnsutils tzdata zip tar curl build-essential libtool iputils-ping libnss3 tini \
-			&& useradd -m -d /home/container container \
-			&& rm -rf /usr/bin/dd \
+            && useradd -m -d /home/container container \
+            && rm -rf /usr/bin/dd \
 	        && rm -rf /usr/bin/fallocate \
 	        && rm -rf /usr/bin/truncate \
 	        && rm -rf /usr/bin/xfs_mkfile
 
-RUN         npm install npm@9.8.1 typescript ts-node @types/node --location=global
+RUN         npm install npm@latest typescript ts-node @types/node --location=global
 
 USER        container
 ENV         USER=container HOME=/home/container

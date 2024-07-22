@@ -1,4 +1,4 @@
-FROM        --platform=$TARGETOS/$TARGETARCH  python:3.11-slim-bookworm
+FROM        --platform=$TARGETOS/$TARGETARCH python:3.12-slim-bookworm
 
 LABEL       author="Embotic.XYZ" maintainer="Embotic.XYZ"
 
