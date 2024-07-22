@@ -1,4 +1,4 @@
-FROM        --platform=$TARGETOS/$TARGETARCH node:21-bookworm-slim
+FROM        --platform=$TARGETOS/$TARGETARCH node:20-bookworm-slim
 
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
