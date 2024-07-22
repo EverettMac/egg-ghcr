@@ -20,12 +20,7 @@ RUN         apt update -y \
                 libfreetype6 \
                 tini \
 				zip \
-				unzip \
-                && rm -f /usr/bin/dd \
-                && rm -f /usr/bin/fallocate \
-                && rm -f /usr/bin/truncate \
-                && rm -f /usr/bin/xfs_mkfile \
-                && useradd -d /home/container -m container
+				unzip
 
 ## Setup user and working directory
 RUN         useradd -m -d /home/container -s /bin/bash container
