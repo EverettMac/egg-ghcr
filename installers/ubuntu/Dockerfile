@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2022 oliver194
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,15 @@
 # SOFTWARE.
 #
 
-FROM        --platform=$TARGETOS/$TARGETARCH eclipse-temurin:18-jdk-jammy
+FROM        --platform=$TARGETOS/$TARGETARCH ubuntu:jammy
 
-LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
+LABEL       author="oliver194" maintainer="100048880+oliver194@users.noreply.github.com"
 
-LABEL       org.opencontainers.image.source="https://github.com/embotic-xyz/egg-ghcr"
+LABEL       org.opencontainers.image.source="https://github.com/oliver194/yolks"
 LABEL       org.opencontainers.image.licenses=MIT
 
-RUN 		apt-get update -y \
- 			&& apt-get install -y lsof curl ca-certificates openssl git tar sqlite3 fontconfig libfreetype6 tzdata iproute2 libstdc++6 \
- 			&& useradd -d /home/container -m container
+ENV         DEBIAN_FRONTEND=noninteractive
 
-USER        container
-ENV         USER=container HOME=/home/container
-WORKDIR     /home/container
-
-COPY        ./../entrypoint.sh /entrypoint.sh
-CMD         [ "/bin/bash", "/entrypoint.sh" ]
+RUN         apt update \
+		&& apt upgrade -y \
+		&& apt -y --no-install-recommends install ca-certificates curl git unzip zip tar jq

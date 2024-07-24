@@ -1,10 +1,14 @@
 FROM        --platform=$TARGETOS/$TARGETARCH  python:3.11-slim-bookworm
 
-LABEL       author="Embotic.XYZ" maintainer="Embotic.XYZ"
+LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
 RUN         apt update \
             && apt -y install git gcc g++ ca-certificates dnsutils curl iproute2 ffmpeg procps tini \
-            && useradd -m -d /home/container container
+            && useradd -m -d /home/container container \
+            && rm -rf /usr/bin/dd \
+            && rm -rf /usr/bin/fallocate \
+            && rm -rf /usr/bin/truncate \
+            && rm -rf /usr/bin/xfs_mkfile
 
 USER        container
 ENV         USER=container HOME=/home/container
