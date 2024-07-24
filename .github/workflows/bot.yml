@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         tag:
-          - Embotic.XYZtron
+          - parkertron
           - red
           - sinusbot
           - bastion
