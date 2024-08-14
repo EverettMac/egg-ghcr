@@ -1,4 +1,4 @@
-FROM        --platform=$TARGETOS/$TARGETARCH ghcr.io/Embotic.XYZ/yolks:debian
+FROM        --platform=$TARGETOS/$TARGETARCH ghcr.io/embotic-xyz/egg-ghcr:debian
 
 LABEL       author="Embotic.XYZ" maintainer="luke@embotic.xyz"
 
